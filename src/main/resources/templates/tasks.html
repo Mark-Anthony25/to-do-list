@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css"/>
+</head>
+<body>
+<div class="container">
+    <h1>To-Do List</h1>
+    <form th:action="@{/tasks}" method="post" class="task-form">
+        <input type="text" name="title" placeholder="Task title" required>
+        <input type="text" name="description" placeholder="Description">
+        <button type="submit">Add Task</button>
+    </form>
+    <table class="task-table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td>
+                <span th:text="${task.completed} ? 'Completed' : 'Pending'"></span>
+            </td>
+            <td>
+                <form th:action="@{'/tasks/' + ${task.id} + '/toggle'}" method="post" style="display:inline">
+                    <button type="submit">Toggle</button>
+                </form>
+                <form th:action="@{'/tasks/' + ${task.id} + '/delete'}" method="post" style="display:inline">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
